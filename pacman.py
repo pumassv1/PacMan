@@ -1,29 +1,29 @@
-import pygame
 from gamemanager import GameManager
 from gameconstants import *
+import sys
 
 
 class PacMan:
     def __init__(self):
-        self.x = 31
-        self.y = 15
+        self.x = 0
+        self.y = 0
         self.live = 3
         self.sprite = pygame.image.load('assets/pacman.png').convert_alpha()
 
     def move_up(self):
-        if self.y < 31 and self.y > 0:
+        if self.y <= 31 and self.y > 0:
             self.y -= 1
 
     def move_down(self):
-        if self.y < 31 and self.y > 0:
+        if self.y < 31 and self.y >= 0:
             self.y += 1
 
     def move_right(self):
-        if self.x < 31 and self.x > 0:
+        if self.x < 31 and self.x >= 0:
             self.x += 1
 
     def move_left(self):
-        if self.x < 31 and self.x > 0:
+        if self.x <= 31 and self.x > 0:
             self.x -= 1
 
     def draw_sprite(self):
@@ -35,9 +35,24 @@ gamemanager = GameManager()
 pacman = PacMan()
 
 
-gamemanager.draw_board()
+while True:
+    gamemanager.draw_board()
 
-pacman.draw_sprite()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                pacman.move_up()
+            if event.key == pygame.K_s:
+                pacman.move_down()
+            if event.key == pygame.K_a:
+                pacman.move_left()
+            if event.key == pygame.K_d:
+                pacman.move_right()
 
-pygame.display.update()
-input()
+
+    pacman.draw_sprite()
+    pygame.display.update()
+

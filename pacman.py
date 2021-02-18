@@ -2,7 +2,6 @@ from gamemanager import GameManager
 from gameconstants import *
 import sys
 
-
 class PacMan:
     def __init__(self):
         self.x = 0
@@ -10,26 +9,33 @@ class PacMan:
         self.live = 3
         self.sprite = pygame.image.load('assets/pacman.png').convert_alpha()
         self.speed = 1
+        self.animation = [pygame.transform.rotate(pygame.image.load('assets/pacman.png').convert_alpha(),90),   # UP
+                          pygame.transform.rotate(pygame.image.load('assets/pacman.png').convert_alpha(),270),  # DOWN
+                          pygame.transform.rotate(pygame.image.load('assets/pacman.png').convert_alpha(),180),  # LEFT
+                          pygame.image.load('assets/pacman.png').convert_alpha()]                               # RIGHT
 
     def move_up(self):
         if self.y <= 31 and self.y > 0:
             self.y -= self.speed
+            self.sprite = self.animation[0]
 
     def move_down(self):
         if self.y < 31 and self.y >= 0:
             self.y += self.speed
+            self.sprite = self.animation[1]
 
     def move_right(self):
         if self.x < 31 and self.x >= 0:
             self.x += self.speed
+            self.sprite = self.animation[3]
 
     def move_left(self):
         if self.x <= 31 and self.x > 0:
             self.x -= self.speed
+            self.sprite = self.animation[2]
 
     def draw_sprite(self):
         screen.blit(self.sprite, self.sprite.get_rect(topleft=(self.x*box_size, self.y*box_size)))
-
 
 
 gamemanager = GameManager()
